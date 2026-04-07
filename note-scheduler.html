@@ -9,90 +9,92 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#f0ebe1;
-  --paper:#faf6ef;
-  --tile:#fff9f0;
-  --border:#d8cfc0;
-  --border2:#c8bfb0;
-  --text:#1a1610;
-  --text2:#4a4035;
-  --dim:#9a9080;
-  --amber:#b87800;
-  --amber-bg:#fff3d0;
-  --red:#c0392b;
-  --today-bg:#fffae8;
-  --today-border:#d4920a;
-  --insert-bg:#fff8e0;
-  --swap-bg:#fffae0;
+  --bg:#ede8de;
+  --paper:#fdf8f0;
+  --tile:#fdf8f0;
+  --border:#b0a090;
+  --border2:#8a7a68;
+  --text:#1a1410;
+  --text2:#3a3028;
+  --dim:#7a6e60;
+  --amber:#a06800;
+  --amber-light:#e8a800;
+  --red:#b02020;
+  --today-bg:#fff8e0;
+  --today-border:#c08000;
   --sans:'Noto Sans JP',sans-serif;
 }
-body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;padding:12px 12px 100px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;padding:14px 14px 100px;font-size:15px}
 
-.hd{display:flex;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(–border2)}
-.hd-title{font-size:15px;font-weight:700;color:var(–amber);letter-spacing:.06em}
-.hd-sub{font-size:11px;color:var(–dim);margin-left:10px}
+.hd{display:flex;align-items:center;margin-bottom:18px;padding-bottom:13px;border-bottom:2px solid var(–border2)}
+.hd-title{font-size:16px;font-weight:700;color:var(–amber);letter-spacing:.06em}
+.hd-sub{font-size:12px;color:var(–dim);margin-left:10px}
 
 /* INSERT ZONE */
-.insert-zone{height:10px;margin:0;position:relative;z-index:10;transition:height .15s}
-.insert-zone.active{height:44px;background:var(–insert-bg);border:2px dashed var(–amber);border-radius:5px;display:flex;align-items:center;justify-content:center;margin:2px 0}
-.insert-zone.active::after{content:‘ここに挿入’;font-size:11px;color:var(–amber);font-family:var(–sans);font-weight:500}
+.insert-zone{height:12px;position:relative;z-index:10}
+.insert-zone.active{height:48px;background:#fff3c0;border:2.5px dashed var(–amber);border-radius:5px;display:flex;align-items:center;justify-content:center;margin:3px 0}
+.insert-zone.active::after{content:‘↓ ここに挿入（以降を1日ずつ後ろへ）’;font-size:11px;color:var(–amber);font-family:var(–sans);font-weight:700}
 
 /* TILE */
-.day-tile{margin-bottom:2px}
-.tile-body{display:flex;align-items:stretch;background:var(–tile);border:1px solid var(–border);border-radius:5px;min-height:52px;transition:border-color .15s,background .15s;overflow:hidden}
-.day-tile.today .tile-body{background:var(–today-bg);border-color:var(–today-border);border-width:1.5px}
-.day-tile.past .tile-body{opacity:.5}
-.tile-body.swap-target{border-color:var(–amber);background:var(–swap-bg);box-shadow:0 0 0 2px rgba(180,120,0,.15)}
-.tile-body.empty-target{border-color:var(–amber);background:var(–insert-bg)}
+.day-tile{margin-bottom:3px}
+.tile-body{display:flex;align-items:stretch;background:var(–tile);border:1.5px solid var(–border);border-radius:5px;min-height:54px;transition:border-color .12s,background .12s;overflow:hidden}
+.day-tile.today .tile-body{background:var(–today-bg);border:2.5px solid var(–today-border)}
+.day-tile.past .tile-body{opacity:.45}
 
-.date-col{width:80px;flex-shrink:0;display:flex;align-items:center;padding:10px 8px 10px 14px;border-right:1px solid var(–border)}
+/* swap highlight */
+.tile-body.swap-target{border:2.5px solid #c00 !important;background:#fff0f0 !important}
+.tile-body.swap-target .date-col::after{content:‘⇄ 入れ替え’;display:block;font-size:10px;color:#c00;font-weight:700;margin-top:2px}
+/* empty highlight */
+.tile-body.empty-target{border:2.5px solid var(–amber) !important;background:#fffbe8 !important}
+
+.date-col{width:84px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;padding:10px 6px 10px 14px;border-right:1.5px solid var(–border)}
 .day-tile.today .date-col{border-right-color:var(–today-border)}
-.date-text{font-size:12px;font-weight:500;color:var(–text2);white-space:nowrap;line-height:1.4}
-.day-tile.today .date-text{color:var(–amber);font-weight:700}
-.today-badge{display:block;font-size:8px;background:var(–amber);color:#fff;padding:1px 4px;border-radius:2px;margin-top:3px;font-weight:700;letter-spacing:.05em}
+.date-text{font-size:13px;font-weight:700;color:var(–text2);white-space:nowrap}
+.day-tile.today .date-text{color:var(–amber)}
+.today-badge{display:inline-block;font-size:9px;background:var(–amber);color:#fff;padding:2px 5px;border-radius:3px;margin-top:4px;font-weight:700;letter-spacing:.05em}
 
 .tile-content{flex:1;min-width:0;padding:6px 8px;display:flex;align-items:center}
-.tile-empty{font-size:11px;color:var(–dim)}
+.tile-empty{font-size:13px;color:#b0a090}
 
 /* CARD */
-.tile-card{display:flex;align-items:stretch;width:100%;background:var(–paper);border:1px solid var(–border);border-radius:4px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.tile-card.dragging-src{opacity:.25}
-.card-text{flex:1;min-width:0;padding:9px 10px;cursor:pointer}
-.card-title-text{font-size:13px;font-weight:500;color:var(–text);line-height:1.4}
-.card-memo-text{font-size:11px;color:var(–dim);margin-top:3px;line-height:1.4}
-.card-handle{width:28px;flex-shrink:0;background:var(–bg);border-left:1px solid var(–border);display:flex;align-items:center;justify-content:center;cursor:grab;touch-action:none}
-.card-handle::after{content:’’;display:block;width:4px;height:28px;background:repeating-linear-gradient(to bottom,var(–border2) 0,var(–border2) 3px,transparent 3px,transparent 7px);border-radius:2px}
+.tile-card{display:flex;align-items:stretch;width:100%;background:#fff;border:1.5px solid var(–border);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.tile-card.dragging-src{opacity:.2}
+.card-text{flex:1;min-width:0;padding:10px 12px;cursor:pointer}
+.card-title-text{font-size:14px;font-weight:500;color:var(–text);line-height:1.4}
+.card-memo-text{font-size:12px;color:var(–dim);margin-top:4px;line-height:1.4}
+.card-handle{width:32px;flex-shrink:0;background:#6a5c4e;border-left:1.5px solid #4a3c2e;display:flex;align-items:center;justify-content:center;cursor:grab;touch-action:none}
+.card-handle::after{content:’’;display:block;width:5px;height:30px;background:repeating-linear-gradient(to bottom,#c8b89a 0,#c8b89a 3px,#4a3c2e 3px,#4a3c2e 7px);border-radius:2px}
 
 /* STOCK */
-.stock-wrap{margin-top:16px;background:var(–tile);border:1px solid var(–border);border-radius:5px;padding:14px}
-.stock-wrap.drop-active{border-color:var(–amber);background:var(–insert-bg)}
-.stock-label{font-size:11px;font-weight:700;color:var(–amber);letter-spacing:.1em;margin-bottom:10px}
-.stock-list{display:flex;flex-direction:column;gap:6px}
-.stock-empty{font-size:12px;color:var(–dim);padding:4px 0}
-.stock-card{display:flex;align-items:stretch;background:var(–paper);border:1px solid var(–border);border-radius:4px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.stock-card.dragging-src{opacity:.25}
+.stock-wrap{margin-top:18px;background:var(–tile);border:1.5px solid var(–border);border-radius:5px;padding:14px}
+.stock-wrap.drop-active{border:2.5px solid var(–amber);background:#fffbe8}
+.stock-label{font-size:12px;font-weight:700;color:var(–amber);letter-spacing:.1em;margin-bottom:10px}
+.stock-list{display:flex;flex-direction:column;gap:7px}
+.stock-empty{font-size:13px;color:var(–dim);padding:4px 0}
+.stock-card{display:flex;align-items:stretch;background:#fff;border:1.5px solid var(–border);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.stock-card.dragging-src{opacity:.2}
 
 /* GHOST */
-.drag-ghost{position:fixed;pointer-events:none;z-index:500;background:var(–paper);border:1.5px solid var(–amber);border-radius:4px;padding:9px 12px;font-family:var(–sans);font-size:13px;font-weight:500;color:var(–text);max-width:220px;box-shadow:0 6px 20px rgba(0,0,0,.18);transform:rotate(1deg)}
+.drag-ghost{position:fixed;pointer-events:none;z-index:500;background:#fff;border:2px solid var(–amber);border-radius:4px;padding:10px 14px;font-family:var(–sans);font-size:14px;font-weight:500;color:var(–text);max-width:220px;box-shadow:0 8px 24px rgba(0,0,0,.2);transform:rotate(1.5deg)}
 
 /* FAB */
-.fab{position:fixed;bottom:22px;right:20px;width:54px;height:54px;background:var(–amber);border:none;border-radius:50%;font-size:28px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.2);z-index:50;line-height:1}
+.fab{position:fixed;bottom:24px;right:20px;width:56px;height:56px;background:var(–amber);border:none;border-radius:50%;font-size:30px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:50;line-height:1}
 .fab:active{transform:scale(.9)}
 
 /* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:200}
 .overlay.hidden{display:none}
-.modal{background:var(–paper);border:1px solid var(–border);border-radius:12px 12px 0 0;width:100%;max-width:500px;padding:16px 20px 36px;max-height:80vh;overflow-y:auto}
+.modal{background:var(–paper);border:1.5px solid var(–border);border-radius:12px 12px 0 0;width:100%;max-width:500px;padding:16px 20px 36px;max-height:80vh;overflow-y:auto}
 .modal-handle{width:36px;height:4px;background:var(–border2);border-radius:2px;margin:0 auto 14px}
-.modal-title{font-size:13px;font-weight:700;color:var(–amber);margin-bottom:14px}
-.fl{font-size:10px;color:var(–dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;margin-top:14px;display:block;font-weight:500}
-.modal input,.modal textarea{width:100%;background:var(–bg);border:1px solid var(–border);color:var(–text);padding:11px 12px;border-radius:4px;font-size:14px;font-family:var(–sans);outline:none}
+.modal-title{font-size:14px;font-weight:700;color:var(–amber);margin-bottom:14px}
+.fl{font-size:11px;color:var(–dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;margin-top:14px;display:block;font-weight:700}
+.modal input,.modal textarea{width:100%;background:var(–bg);border:1.5px solid var(–border);color:var(–text);padding:12px 13px;border-radius:4px;font-size:15px;font-family:var(–sans);outline:none}
 .modal input:focus,.modal textarea:focus{border-color:var(–amber)}
 .modal textarea{resize:none;line-height:1.6}
 .modal-actions{display:flex;gap:8px;margin-top:18px}
-.btn-c{flex:1;padding:13px;background:transparent;border:1px solid var(–border);color:var(–dim);border-radius:4px;font-size:13px;cursor:pointer;font-family:var(–sans)}
-.btn-d{padding:13px 16px;background:transparent;border:1px solid var(–red);color:var(–red);border-radius:4px;font-size:13px;cursor:pointer;font-family:var(–sans)}
-.btn-s{flex:2;padding:13px;background:var(–amber);color:#fff;border:none;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(–sans)}
+.btn-c{flex:1;padding:14px;background:transparent;border:1.5px solid var(–border);color:var(–dim);border-radius:4px;font-size:14px;cursor:pointer;font-family:var(–sans)}
+.btn-d{padding:14px 16px;background:transparent;border:1.5px solid var(–red);color:var(–red);border-radius:4px;font-size:14px;cursor:pointer;font-family:var(–sans)}
+.btn-s{flex:2;padding:14px;background:var(–amber);color:#fff;border:none;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(–sans)}
 </style>
 
 </head>
@@ -102,14 +104,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   <div class="hd-title">NOTE SCHEDULER</div>
   <div class="hd-sub">投稿スケジュール管理</div>
 </div>
-
 <div id="cal"></div>
-
 <div class="stock-wrap" id="stock-wrap">
   <div class="stock-label">STOCK — 企画案</div>
   <div class="stock-list" id="stock-list"></div>
 </div>
-
 <button class="fab" id="fab">＋</button>
 
 <div class="overlay hidden" id="overlay">
@@ -129,12 +128,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 </div>
 
 <script>
-var KEY='note-sched-v5', arts=[], editId=null;
-var dragState=null;
-var scrollInterval=null;
+var KEY='note-sched-v5',arts=[],editId=null,dragState=null,scrollInterval=null;
 
 function load(){
-  try{ var s=localStorage.getItem(KEY); if(s){arts=JSON.parse(s);return} }catch(e){}
+  try{var s=localStorage.getItem(KEY);if(s){arts=JSON.parse(s);return}}catch(e){}
   var t=new Date();
   arts=[
     {id:'s1',title:'3月振り返り①',date:ds(addD(t,-1)),memo:''},
@@ -145,215 +142,132 @@ function load(){
     {id:'s6',title:'souba.py解説記事',date:null,memo:''},
   ];
 }
-function sv(){ try{localStorage.setItem(KEY,JSON.stringify(arts))}catch(e){} }
-function ds(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()) }
-function pad(n){ return String(n).padStart(2,'0') }
-function addD(d,n){ var r=new Date(d); r.setDate(r.getDate()+n); return r }
-function td(){ return ds(new Date()) }
-function fmt(s){ var d=new Date(s+'T00:00:00'); return (d.getMonth()+1)+'/'+(d.getDate())+'('+'日月火水木金土'[d.getDay()]+')' }
-function getDays(){ var a=[]; for(var i=-1;i<=14;i++) a.push(ds(addD(new Date(),i))); return a }
-function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
-function nextTitle(){
-  var c='①②③④⑤⑥⑦⑧⑨⑩';
-  var n=arts.filter(function(a){return a.title.indexOf('NO TITLE')===0}).length;
-  return 'NO TITLE'+(n<10?c[n]:n+1);
-}
-function addCard(){ arts.push({id:'c'+Date.now(),title:nextTitle(),date:null,memo:''}); sv(); render(); }
+function sv(){try{localStorage.setItem(KEY,JSON.stringify(arts))}catch(e){}}
+function ds(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function pad(n){return String(n).padStart(2,'0')}
+function addD(d,n){var r=new Date(d);r.setDate(r.getDate()+n);return r}
+function td(){return ds(new Date())}
+function fmt(s){var d=new Date(s+'T00:00:00');return(d.getMonth()+1)+'/'+(d.getDate())+'('+'日月火水木金土'[d.getDay()]+')'}
+function getDays(){var a=[];for(var i=-1;i<=14;i++)a.push(ds(addD(new Date(),i)));return a}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function nextTitle(){var c='①②③④⑤⑥⑦⑧⑨⑩';var n=arts.filter(function(a){return a.title.indexOf('NO TITLE')===0}).length;return 'NO TITLE'+(n<10?c[n]:n+1)}
+function addCard(){arts.push({id:'c'+Date.now(),title:nextTitle(),date:null,memo:''});sv();render()}
 
-// ── render ────────────────────────────────────────────────────
 function render(){
-  var today=td(), days=getDays();
-  var cal=document.getElementById('cal');
+  var today=td(),days=getDays(),cal=document.getElementById('cal');
   cal.innerHTML='';
-
   days.forEach(function(d){
-    var past=d<today, tod=d===today;
+    var past=d<today,tod=d===today;
     var art=arts.find(function(a){return a.date===d})||null;
-
     var iz=document.createElement('div');
-    iz.className='insert-zone';
-    iz.dataset.insertBefore=d;
+    iz.className='insert-zone';iz.dataset.insertBefore=d;
     cal.appendChild(iz);
-
     var tile=document.createElement('div');
     tile.className='day-tile'+(tod?' today':'')+(past?' past':'');
-
     var body=document.createElement('div');
-    body.className='tile-body';
-    body.dataset.date=d;
-
+    body.className='tile-body';body.dataset.date=d;
     var dc=document.createElement('div');
     dc.className='date-col';
     dc.innerHTML='<span class="date-text">'+fmt(d)+(tod?'<span class="today-badge">TODAY</span>':'')+'</span>';
     body.appendChild(dc);
-
     var tc=document.createElement('div');
     tc.className='tile-content';
-    if(art){
-      tc.appendChild(makeTileCard(art));
-    } else {
-      var em=document.createElement('div');
-      em.className='tile-empty';
-      em.textContent='空き';
-      tc.appendChild(em);
-    }
-    body.appendChild(tc);
-    tile.appendChild(body);
-    cal.appendChild(tile);
+    if(art){tc.appendChild(mkTileCard(art))}
+    else{var em=document.createElement('div');em.className='tile-empty';em.textContent='−';tc.appendChild(em)}
+    body.appendChild(tc);tile.appendChild(body);cal.appendChild(tile);
   });
-
-  var izEnd=document.createElement('div');
-  izEnd.className='insert-zone';
-  izEnd.dataset.insertAfterAll='1';
-  cal.appendChild(izEnd);
-
-  // stock
-  var sl=document.getElementById('stock-list');
-  sl.innerHTML='';
+  var izE=document.createElement('div');izE.className='insert-zone';izE.dataset.insertAfterAll='1';cal.appendChild(izE);
+  var sl=document.getElementById('stock-list');sl.innerHTML='';
   var stock=arts.filter(function(a){return!a.date});
-  if(!stock.length){
-    var em=document.createElement('div'); em.className='stock-empty'; em.textContent='企画案なし'; sl.appendChild(em);
-  } else {
-    stock.forEach(function(a){ sl.appendChild(makeStockCard(a)); });
-  }
+  if(!stock.length){var em=document.createElement('div');em.className='stock-empty';em.textContent='企画案なし';sl.appendChild(em)}
+  else{stock.forEach(function(a){sl.appendChild(mkStockCard(a))})}
 }
 
-function makeTileCard(a){
-  var wrap=document.createElement('div');
-  wrap.className='tile-card'; wrap.dataset.id=a.id;
-  var txt=document.createElement('div');
-  txt.className='card-text';
-  txt.innerHTML='<div class="card-title-text">'+esc(a.title)+'</div>'+(a.memo?'<div class="card-memo-text">'+esc(a.memo)+'</div>':'');
-  txt.addEventListener('click',function(){ openModal(a.id); });
-  var handle=document.createElement('div');
-  handle.className='card-handle'; handle.dataset.id=a.id;
-  wrap.appendChild(txt); wrap.appendChild(handle);
-  setupHandle(handle,a.id);
-  return wrap;
+function mkTileCard(a){
+  var w=document.createElement('div');w.className='tile-card';w.dataset.id=a.id;
+  var tx=document.createElement('div');tx.className='card-text';
+  tx.innerHTML='<div class="card-title-text">'+esc(a.title)+'</div>'+(a.memo?'<div class="card-memo-text">'+esc(a.memo)+'</div>':'');
+  tx.addEventListener('click',function(){openModal(a.id)});
+  var h=document.createElement('div');h.className='card-handle';h.dataset.id=a.id;
+  w.appendChild(tx);w.appendChild(h);setupHandle(h,a.id);return w;
+}
+function mkStockCard(a){
+  var w=document.createElement('div');w.className='stock-card';w.dataset.id=a.id;
+  var tx=document.createElement('div');tx.className='card-text';
+  tx.innerHTML='<div class="card-title-text">'+esc(a.title)+'</div>'+(a.memo?'<div class="card-memo-text">'+esc(a.memo)+'</div>':'');
+  tx.addEventListener('click',function(){openModal(a.id)});
+  var h=document.createElement('div');h.className='card-handle';h.dataset.id=a.id;
+  w.appendChild(tx);w.appendChild(h);setupHandle(h,a.id);return w;
 }
 
-function makeStockCard(a){
-  var wrap=document.createElement('div');
-  wrap.className='stock-card'; wrap.dataset.id=a.id;
-  var txt=document.createElement('div');
-  txt.className='card-text';
-  txt.innerHTML='<div class="card-title-text">'+esc(a.title)+'</div>'+(a.memo?'<div class="card-memo-text">'+esc(a.memo)+'</div>':'');
-  txt.addEventListener('click',function(){ openModal(a.id); });
-  var handle=document.createElement('div');
-  handle.className='card-handle'; handle.dataset.id=a.id;
-  wrap.appendChild(txt); wrap.appendChild(handle);
-  setupHandle(handle,a.id);
-  return wrap;
-}
-
-// ── drag ──────────────────────────────────────────────────────
 function setupHandle(handle,id){
-  var startX,startY,longTimer,moved=false;
-
+  var sx,sy,lt,moved;
   handle.addEventListener('touchstart',function(e){
-    moved=false;
-    startX=e.touches[0].clientX; startY=e.touches[0].clientY;
-    longTimer=setTimeout(function(){ beginDrag(id,e.touches[0]); },320);
+    moved=false;sx=e.touches[0].clientX;sy=e.touches[0].clientY;
+    lt=setTimeout(function(){beginDrag(id,e.touches[0])},300);
     e.preventDefault();
   },{passive:false});
-
   handle.addEventListener('touchmove',function(e){
-    var dx=Math.abs(e.touches[0].clientX-startX), dy=Math.abs(e.touches[0].clientY-startY);
-    if(dx>6||dy>6){ moved=true; clearTimeout(longTimer); }
-    if(dragState&&dragState.active){ moveDrag(e.touches[0]); e.preventDefault(); }
+    var dx=Math.abs(e.touches[0].clientX-sx),dy=Math.abs(e.touches[0].clientY-sy);
+    if(dx>6||dy>6){moved=true;clearTimeout(lt)}
+    if(dragState&&dragState.active){moveDrag(e.touches[0]);e.preventDefault()}
   },{passive:false});
-
   handle.addEventListener('touchend',function(e){
-    clearTimeout(longTimer);
-    if(dragState&&dragState.active){ endDrag(e.changedTouches[0]); }
-    else { dragState=null; }
+    clearTimeout(lt);
+    if(dragState&&dragState.active){endDrag(e.changedTouches[0])}
+    else{dragState=null}
   });
 }
 
 function beginDrag(id,touch){
-  var a=arts.find(function(x){return x.id===id}); if(!a) return;
+  var a=arts.find(function(x){return x.id===id});if(!a)return;
   dragState={id:id,active:true};
-
-  document.querySelectorAll('[data-id="'+id+'"]').forEach(function(el){
-    el.classList.add('dragging-src');
-  });
-
-  var g=document.createElement('div');
-  g.className='drag-ghost'; g.id='drag-ghost';
-  g.textContent=a.title;
-  document.body.appendChild(g);
-  posGhost(g,touch);
-  startAutoScroll(touch);
+  document.querySelectorAll('[data-id="'+id+'"]').forEach(function(el){el.classList.add('dragging-src')});
+  var g=document.createElement('div');g.className='drag-ghost';g.id='drag-ghost';g.textContent=a.title;
+  document.body.appendChild(g);posGhost(g,touch);startAutoScroll(touch);
 }
-
 function moveDrag(touch){
-  var g=document.getElementById('drag-ghost');
-  if(g) posGhost(g,touch);
-  updateAutoScroll(touch);
-  clearHL();
-  var tgt=findTarget(touch);
-  if(tgt) highlightTarget(tgt);
+  var g=document.getElementById('drag-ghost');if(g)posGhost(g,touch);
+  updateAutoScroll(touch);clearHL();
+  var tgt=findTarget(touch);if(tgt)highlightTarget(tgt);
 }
-
 function endDrag(touch){
   stopAutoScroll();
-  var g=document.getElementById('drag-ghost'); if(g) g.remove();
-  document.querySelectorAll('.dragging-src').forEach(function(el){ el.classList.remove('dragging-src'); });
+  var g=document.getElementById('drag-ghost');if(g)g.remove();
+  document.querySelectorAll('.dragging-src').forEach(function(el){el.classList.remove('dragging-src')});
   clearHL();
-  var tgt=findTarget(touch);
-  if(tgt) applyDrop(tgt);
-  dragState=null;
-  render();
+  var tgt=findTarget(touch);if(tgt)applyDrop(tgt);
+  dragState=null;render();
 }
+function posGhost(g,touch){g.style.left=(touch.clientX-80)+'px';g.style.top=(touch.clientY-50)+'px'}
 
-function posGhost(g,touch){
-  g.style.left=(touch.clientX-80)+'px';
-  g.style.top=(touch.clientY-50)+'px';
-}
-
-// auto scroll
-function startAutoScroll(touch){ updateAutoScroll(touch); }
+function startAutoScroll(touch){updateAutoScroll(touch)}
 function updateAutoScroll(touch){
   stopAutoScroll();
-  var y=touch.clientY, wh=window.innerHeight;
-  if(y<80){
-    var speed=Math.max(2,Math.round((80-y)/8));
-    scrollInterval=setInterval(function(){ window.scrollBy(0,-speed); },16);
-  } else if(y>wh-80){
-    var speed=Math.max(2,Math.round((y-(wh-80))/8));
-    scrollInterval=setInterval(function(){ window.scrollBy(0,speed); },16);
-  }
+  var y=touch.clientY,wh=window.innerHeight;
+  if(y<80){var sp=Math.max(3,Math.round((80-y)/6));scrollInterval=setInterval(function(){window.scrollBy(0,-sp)},16)}
+  else if(y>wh-80){var sp=Math.max(3,Math.round((y-(wh-80))/6));scrollInterval=setInterval(function(){window.scrollBy(0,sp)},16)}
 }
-function stopAutoScroll(){ if(scrollInterval){clearInterval(scrollInterval);scrollInterval=null;} }
+function stopAutoScroll(){if(scrollInterval){clearInterval(scrollInterval);scrollInterval=null}}
 
-// find drop target
 function findTarget(touch){
-  var x=touch.clientX, y=touch.clientY+window.scrollY;
-  // check insert zones
   var izs=document.querySelectorAll('.insert-zone');
   for(var i=0;i<izs.length;i++){
-    var iz=izs[i];
-    var r=iz.getBoundingClientRect();
-    var ry=r.top+window.scrollY;
-    if(touch.clientY>=r.top-2 && touch.clientY<=r.bottom+2){
-      if(iz.dataset.insertBefore) return {type:'insert',before:iz.dataset.insertBefore};
-      if(iz.dataset.insertAfterAll) return {type:'stock'};
+    var r=izs[i].getBoundingClientRect();
+    if(touch.clientY>=r.top-4&&touch.clientY<=r.bottom+4){
+      if(izs[i].dataset.insertBefore)return{type:'insert',before:izs[i].dataset.insertBefore};
+      if(izs[i].dataset.insertAfterAll)return{type:'stock'};
     }
   }
-  // check tile bodies
   var tbs=document.querySelectorAll('.tile-body[data-date]');
   for(var i=0;i<tbs.length;i++){
     var r=tbs[i].getBoundingClientRect();
-    if(touch.clientX>=r.left&&touch.clientX<=r.right&&touch.clientY>=r.top&&touch.clientY<=r.bottom){
-      return {type:'tile',date:tbs[i].dataset.date};
-    }
+    if(touch.clientX>=r.left&&touch.clientX<=r.right&&touch.clientY>=r.top&&touch.clientY<=r.bottom)
+      return{type:'tile',date:tbs[i].dataset.date};
   }
-  // stock section
   var sw=document.getElementById('stock-wrap');
   var r=sw.getBoundingClientRect();
-  if(touch.clientX>=r.left&&touch.clientX<=r.right&&touch.clientY>=r.top&&touch.clientY<=r.bottom){
-    return {type:'stock'};
-  }
+  if(touch.clientX>=r.left&&touch.clientX<=r.right&&touch.clientY>=r.top&&touch.clientY<=r.bottom)return{type:'stock'};
   return null;
 }
 
@@ -362,29 +276,23 @@ function clearHL(){
     el.classList.remove('swap-target','empty-target','active','drop-active');
   });
 }
-
 function highlightTarget(tgt){
   if(tgt.type==='tile'){
-    var tb=document.querySelector('.tile-body[data-date="'+tgt.date+'"]');
-    if(!tb) return;
+    var tb=document.querySelector('.tile-body[data-date="'+tgt.date+'"]');if(!tb)return;
     var hasCard=arts.find(function(a){return a.date===tgt.date&&a.id!==dragState.id});
     tb.classList.add(hasCard?'swap-target':'empty-target');
   } else if(tgt.type==='insert'){
     var iz=document.querySelector('.insert-zone[data-insert-before="'+tgt.before+'"]');
-    if(iz) iz.classList.add('active');
+    if(iz)iz.classList.add('active');
   } else if(tgt.type==='stock'){
     document.getElementById('stock-wrap').classList.add('drop-active');
   }
 }
 
 function applyDrop(tgt){
-  var id=dragState.id;
-  var days=getDays();
-  var maxDate=days[days.length-1];
-
+  var id=dragState.id,days=getDays(),maxDate=days[days.length-1];
   if(tgt.type==='stock'){
-    arts=arts.map(function(a){ return a.id===id?Object.assign({},a,{date:null}):a; });
-
+    arts=arts.map(function(a){return a.id===id?Object.assign({},a,{date:null}):a});
   } else if(tgt.type==='tile'){
     var destDate=tgt.date;
     var srcArt=arts.find(function(a){return a.id===id});
@@ -392,57 +300,54 @@ function applyDrop(tgt){
     if(destArt){
       var srcDate=srcArt?srcArt.date:null;
       arts=arts.map(function(a){
-        if(a.id===id) return Object.assign({},a,{date:destDate});
-        if(a.id===destArt.id) return Object.assign({},a,{date:srcDate});
+        if(a.id===id)return Object.assign({},a,{date:destDate});
+        if(a.id===destArt.id)return Object.assign({},a,{date:srcDate});
         return a;
       });
     } else {
-      arts=arts.map(function(a){ return a.id===id?Object.assign({},a,{date:destDate}):a; });
+      arts=arts.map(function(a){return a.id===id?Object.assign({},a,{date:destDate}):a});
     }
-
   } else if(tgt.type==='insert'){
-    var insertDate=tgt.before;
-    // shift cards from insertDate onward (excl dragged) by +1 day
+    var ins=tgt.before;
     var shifted=[];
     days.forEach(function(d){
-      if(d<insertDate) return;
+      if(d<ins)return;
       var a=arts.find(function(x){return x.date===d&&x.id!==id});
-      if(a) shifted.push({id:a.id,newDate:ds(addD(new Date(d+'T00:00:00'),1))});
+      if(a)shifted.push({id:a.id,newDate:ds(addD(new Date(d+'T00:00:00'),1))});
     });
     arts=arts.map(function(a){
-      if(a.id===id) return Object.assign({},a,{date:insertDate});
+      if(a.id===id)return Object.assign({},a,{date:ins});
       var s=shifted.find(function(x){return x.id===a.id});
-      if(s) return Object.assign({},a,{date:s.newDate>maxDate?null:s.newDate});
+      if(s)return Object.assign({},a,{date:s.newDate>maxDate?null:s.newDate});
       return a;
     });
   }
   sv();
 }
 
-// ── modal ──────────────────────────────────────────────────────
 function openModal(id){
-  var a=arts.find(function(x){return x.id===id}); if(!a) return;
+  var a=arts.find(function(x){return x.id===id});if(!a)return;
   editId=id;
   document.getElementById('f-title').value=a.title;
   document.getElementById('f-memo').value=a.memo||'';
   document.getElementById('overlay').classList.remove('hidden');
-  setTimeout(function(){ document.getElementById('f-title').focus(); },100);
+  setTimeout(function(){document.getElementById('f-title').focus()},100);
 }
-function closeModal(){ document.getElementById('overlay').classList.add('hidden'); editId=null; }
+function closeModal(){document.getElementById('overlay').classList.add('hidden');editId=null}
 function saveCard(){
-  if(!editId) return;
-  arts=arts.map(function(a){ return a.id===editId?Object.assign({},a,{title:document.getElementById('f-title').value.trim()||'NO TITLE',memo:document.getElementById('f-memo').value}):a; });
-  sv(); closeModal(); render();
+  if(!editId)return;
+  arts=arts.map(function(a){return a.id===editId?Object.assign({},a,{title:document.getElementById('f-title').value.trim()||'NO TITLE',memo:document.getElementById('f-memo').value}):a});
+  sv();closeModal();render();
 }
 function deleteCard(){
-  if(!editId||!confirm('削除しますか？')) return;
-  arts=arts.filter(function(a){ return a.id!==editId; });
-  sv(); closeModal(); render();
+  if(!editId||!confirm('削除しますか？'))return;
+  arts=arts.filter(function(a){return a.id!==editId});
+  sv();closeModal();render();
 }
 
-document.getElementById('overlay').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
-document.getElementById('fab').addEventListener('click', addCard);
-load(); render();
+document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)closeModal()});
+document.getElementById('fab').addEventListener('click',addCard);
+load();render();
 </script>
 
 </body>
