@@ -7,147 +7,86 @@
 <title>NOTE SCHEDULER</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Noto+Sans+JP:wght@400;500&display=swap');
-
-- { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-–bg: #0e0e0e;
-–panel: #141414;
-–border: #222;
-–text: #d0d0d0;
-–dim: #555;
-–amber: #d4920a;
-–mono: ‘DM Mono’, ‘Courier New’, monospace;
-–sans: ‘Noto Sans JP’, sans-serif;
-}
-
-body { background: var(–bg); color: var(–text); font-family: var(–mono); min-height: 100vh; padding: 16px; }
-
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: #111; }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
-
-/* HEADER */
-.header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; border-bottom: 1px solid var(–border); padding-bottom: 12px; flex-wrap: wrap; }
-.header-title { font-size: 18px; font-weight: 500; color: var(–amber); letter-spacing: 0.1em; }
-.header-sub { font-size: 11px; color: var(–dim); letter-spacing: 0.08em; }
-.btn-new { margin-left: auto; padding: 5px 14px; background: var(–amber); color: #000; border: none; border-radius: 2px; font-size: 11px; font-weight: 500; cursor: pointer; letter-spacing: 0.05em; font-family: var(–mono); }
-
-/* CALENDAR */
-.cal-wrap { overflow-x: auto; margin-bottom: 20px; }
-.cal-row { display: flex; gap: 6px; min-width: max-content; }
-
-.day-col {
-width: 130px; min-height: 180px;
-background: var(–panel);
-border: 1px solid var(–border);
-border-radius: 3px; padding: 8px;
-flex-shrink: 0;
-transition: border-color 0.15s, background 0.15s;
-}
-.day-col.today { background: #191207; border-color: var(–amber); }
-.day-col.past { opacity: 0.55; }
-.day-col.drag-over { background: #1a1a1a !important; border-color: var(–amber) !important; }
-
-.day-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.day-label { font-size: 11px; color: var(–dim); }
-.day-col.today .day-label { color: var(–amber); font-weight: 500; }
-.today-badge { font-size: 9px; color: var(–amber); margin-left: 4px; }
-.day-add { background: none; border: none; color: var(–dim); cursor: pointer; font-size: 14px; line-height: 1; padding: 0; font-family: var(–mono); }
-.day-add:hover { color: var(–amber); }
-
-/* CARDS */
-.card {
-background: #0e0e0e;
-border: 1px solid #222;
-border-radius: 2px;
-padding: 7px 8px;
-cursor: grab;
-transition: border-color 0.15s;
-margin-bottom: 5px;
-user-select: none;
-}
-.card:hover { border-color: #444; }
-.card.dragging { opacity: 0.4; }
-.card-title { font-size: 11px; color: #ccc; line-height: 1.4; margin-bottom: 4px; font-family: var(–sans); }
-.card-meta { display: flex; align-items: center; gap: 5px; }
-.status-badge { font-size: 9px; padding: 2px 5px; border-radius: 2px; letter-spacing: 0.05em; cursor: pointer; }
-.status-badge:hover { opacity: 0.7; }
-.memo-icon { font-size: 9px; color: #444; }
-
-/* STOCK */
-.stock-section { background: var(–panel); border: 1px solid var(–border); border-radius: 3px; padding: 14px; }
-.stock-section.drag-over { border-color: var(–amber); background: #1a1a1a; }
-.stock-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-.stock-title { font-size: 11px; color: var(–amber); letter-spacing: 0.12em; font-weight: 500; }
-.stock-count { font-size: 10px; color: var(–dim); }
-.filter-row { margin-left: auto; display: flex; gap: 5px; flex-wrap: wrap; }
-.filter-btn { padding: 3px 10px; background: transparent; border: 1px solid #333; border-radius: 20px; color: #666; font-size: 10px; cursor: pointer; transition: all 0.15s; font-family: var(–mono); }
-.filter-btn.active { color: #000; }
-.stock-cards { display: flex; flex-wrap: wrap; gap: 8px; }
-.stock-card { width: auto; max-width: 200px; }
-.btn-add-stock { padding: 6px 14px; background: transparent; border: 1px dashed #333; border-radius: 2px; color: var(–dim); font-size: 11px; cursor: pointer; font-family: var(–mono); }
-
-/* MODAL */
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
-.overlay.hidden { display: none; }
-.modal { background: #1a1a1a; border: 1px solid #333; border-radius: 4px; width: 100%; max-width: 440px; padding: 24px; }
-.modal-title { font-size: 13px; color: var(–amber); letter-spacing: 0.1em; margin-bottom: 16px; }
-.field-label { font-size: 10px; color: #555; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; margin-top: 10px; display: block; }
-.field-label:first-of-type { margin-top: 0; }
-.modal input, .modal textarea, .modal select {
-width: 100%; background: #0e0e0e; border: 1px solid #333; color: var(–text);
-padding: 8px 10px; border-radius: 2px; font-size: 13px; font-family: var(–mono); outline: none;
-}
-.modal textarea { resize: vertical; line-height: 1.6; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
-.btn-cancel { padding: 7px 14px; background: transparent; border: 1px solid #333; color: var(–dim); border-radius: 2px; font-size: 12px; cursor: pointer; font-family: var(–mono); }
-.btn-delete { padding: 7px 14px; background: transparent; border: 1px solid #c0392b; color: #c0392b; border-radius: 2px; font-size: 12px; cursor: pointer; font-family: var(–mono); }
-.btn-save { padding: 7px 18px; background: var(–amber); color: #000; border: none; border-radius: 2px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: var(–mono); }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root { --bg:#0e0e0e;--panel:#141414;--border:#222;--text:#d0d0d0;--dim:#555;--amber:#d4920a;--mono:'DM Mono',monospace;--sans:'Noto Sans JP',sans-serif; }
+body { background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;padding:12px; }
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:#111}::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
+.header{display:flex;align-items:center;gap:10px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:12px}
+.header-title{font-size:16px;font-weight:500;color:var(--amber);letter-spacing:.1em}
+.btn-new{margin-left:auto;padding:8px 16px;background:var(--amber);color:#000;border:none;border-radius:3px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--mono);white-space:nowrap}
+.cal-wrap{overflow-x:auto;margin-bottom:16px;-webkit-overflow-scrolling:touch}
+.cal-row{display:flex;gap:6px;min-width:max-content;padding-bottom:4px}
+.day-col{width:120px;min-height:100px;background:var(--panel);border:1px solid var(--border);border-radius:3px;padding:8px;flex-shrink:0}
+.day-col.today{background:#191207;border-color:var(--amber)}
+.day-col.past{opacity:.5}
+.day-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.day-label{font-size:11px;color:var(--dim)}
+.day-col.today .day-label{color:var(--amber);font-weight:500}
+.today-badge{font-size:8px;color:var(--amber);margin-left:3px}
+.day-add{background:none;border:none;color:var(--dim);cursor:pointer;font-size:18px;line-height:1;padding:0 2px;font-family:var(--mono)}
+.card{background:#0e0e0e;border:1px solid #222;border-radius:2px;padding:7px 8px;cursor:pointer;margin-bottom:5px}
+.card:active{background:#1a1a1a}
+.card-title{font-size:12px;color:#ccc;line-height:1.4;margin-bottom:5px;font-family:var(--sans)}
+.card-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.status-badge{font-size:9px;padding:2px 6px;border-radius:2px;letter-spacing:.05em;cursor:pointer;user-select:none}
+.memo-icon{font-size:10px;color:#444}
+.stock-section{background:var(--panel);border:1px solid var(--border);border-radius:3px;padding:12px}
+.stock-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.stock-title{font-size:11px;color:var(--amber);letter-spacing:.1em;font-weight:500}
+.stock-count{font-size:10px;color:var(--dim)}
+.filter-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:10px}
+.filter-row{display:flex;gap:5px;min-width:max-content;padding-bottom:2px}
+.filter-btn{padding:4px 12px;background:transparent;border:1px solid #333;border-radius:20px;color:#666;font-size:11px;cursor:pointer;font-family:var(--mono);white-space:nowrap}
+.filter-btn.active{color:#000}
+.stock-cards{display:flex;flex-wrap:wrap;gap:8px}
+.stock-card{width:calc(50% - 4px)}
+.btn-add-stock{padding:10px 14px;background:transparent;border:1px dashed #333;border-radius:2px;color:var(--dim);font-size:12px;cursor:pointer;font-family:var(--mono);width:100%;margin-top:4px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:flex-end;justify-content:center;z-index:100}
+.overlay.hidden{display:none}
+.modal{background:#1a1a1a;border:1px solid #333;border-radius:8px 8px 0 0;width:100%;max-width:500px;padding:20px 20px 32px;max-height:90vh;overflow-y:auto}
+.modal-handle{width:36px;height:4px;background:#444;border-radius:2px;margin:0 auto 16px}
+.modal-title{font-size:13px;color:var(--amber);letter-spacing:.1em;margin-bottom:14px}
+.field-label{font-size:10px;color:#555;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;margin-top:12px;display:block}
+.modal input,.modal textarea,.modal select{width:100%;background:#0e0e0e;border:1px solid #333;color:var(--text);padding:10px 12px;border-radius:3px;font-size:14px;font-family:var(--mono);outline:none;-webkit-appearance:none;appearance:none}
+.modal textarea{resize:none;line-height:1.6}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-actions{display:flex;gap:8px;margin-top:18px}
+.btn-cancel{flex:1;padding:12px;background:transparent;border:1px solid #333;color:var(--dim);border-radius:3px;font-size:13px;cursor:pointer;font-family:var(--mono)}
+.btn-delete{padding:12px 16px;background:transparent;border:1px solid #c0392b;color:#c0392b;border-radius:3px;font-size:13px;cursor:pointer;font-family:var(--mono)}
+.btn-save{flex:2;padding:12px;background:var(--amber);color:#000;border:none;border-radius:3px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--mono)}
+.date-shortcuts{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.date-sc{padding:5px 10px;background:#0e0e0e;border:1px solid #333;border-radius:20px;font-size:11px;color:#888;cursor:pointer;font-family:var(--mono)}
+.date-sc.clear{color:#c0392b;border-color:#c0392b44}
 </style>
-
 </head>
 <body>
-
 <div class="header">
   <div class="header-title">NOTE SCHEDULER</div>
-  <div class="header-sub">投稿スケジュール管理</div>
-  <button class="btn-new" onclick="openModal('new')">+ 新規追加</button>
+  <button class="btn-new" onclick="openModal('new')">＋ 新規</button>
 </div>
-
-<div class="cal-wrap">
-  <div class="cal-row" id="cal-row"></div>
-</div>
-
-<div class="stock-section" id="stock-section">
+<div class="cal-wrap"><div class="cal-row" id="cal-row"></div></div>
+<div class="stock-section">
   <div class="stock-header">
     <div class="stock-title">STOCK — 企画案</div>
     <div class="stock-count" id="stock-count"></div>
-    <div class="filter-row" id="filter-row"></div>
   </div>
+  <div class="filter-scroll"><div class="filter-row" id="filter-row"></div></div>
   <div class="stock-cards" id="stock-cards"></div>
 </div>
 
-<!-- MODAL -->
-
 <div class="overlay hidden" id="overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
+    <div class="modal-handle"></div>
     <div class="modal-title" id="modal-title">NEW ARTICLE</div>
     <label class="field-label">タイトル</label>
-    <input type="text" id="f-title" placeholder="記事タイトル" />
+    <input type="text" id="f-title" placeholder="記事タイトル"/>
     <div class="grid-2" style="margin-top:10px">
-      <div>
-        <label class="field-label">カテゴリ</label>
-        <select id="f-category"></select>
-      </div>
-      <div>
-        <label class="field-label">ステータス</label>
-        <select id="f-status"></select>
-      </div>
+      <div><label class="field-label">カテゴリ</label><select id="f-category"></select></div>
+      <div><label class="field-label">ステータス</label><select id="f-status"></select></div>
     </div>
-    <label class="field-label">公開予定日（空欄=企画案ストックへ）</label>
-    <input type="date" id="f-date" />
+    <label class="field-label">公開予定日</label>
+    <input type="date" id="f-date"/>
+    <div class="date-shortcuts" id="date-shortcuts"></div>
     <label class="field-label">メモ</label>
     <textarea id="f-memo" rows="2" placeholder="補足メモ…"></textarea>
     <div class="modal-actions">
@@ -159,286 +98,27 @@ padding: 8px 10px; border-radius: 2px; font-size: 13px; font-family: var(–mono
 </div>
 
 <script>
-var CATEGORIES = [
-  { val: 'monthly-review', label: '月次振り返り', color: '#44ee88' },
-  { val: 'ai-battle',      label: 'AIvsメロウ',   color: '#ee8844' },
-  { val: 'education',      label: '琥珀シリーズ', color: '#4488ee' },
-  { val: 'analysis',       label: '銘柄分析',     color: '#ee4488' },
-  { val: 'mindset',        label: 'マインドセット',color: '#88ee44' },
-  { val: 'tool',           label: 'ツール紹介',   color: '#44aaee' },
-  { val: 'free',           label: 'その他',       color: '#aaaaaa' },
-];
-
-var STATUS = [
-  { val: 'idea',      label: '企画',   bg: '#2a2a2a', text: '#888' },
-  { val: 'writing',   label: '執筆中', bg: '#1a2a1a', text: '#4e8' },
-  { val: 'done',      label: '完成',   bg: '#2a1a1a', text: '#e84' },
-  { val: 'published', label: '公開済', bg: '#1a1a2a', text: '#48e' },
-];
-
-var STORAGE_KEY = 'note-scheduler-v1';
-var articles = [];
-var currentEditId = null;
-var activeFilter = 'all';
-var dragId = null;
-
-// ── init ──────────────────────────────────────────────────────
-function load() {
-  try {
-    var s = localStorage.getItem(STORAGE_KEY);
-    if (s) { articles = JSON.parse(s); return; }
-  } catch(e) {}
-  var today = dateStr(new Date());
-  articles = [
-    { id: 's1', title: '3月振り返り①',        category: 'monthly-review', status: 'published', date: dateStr(addDays(new Date(), -1)), memo: '' },
-    { id: 's2', title: '3月振り返り②',        category: 'monthly-review', status: 'done',      date: today,                           memo: '' },
-    { id: 's3', title: 'AIvsメロウ第2回結果',  category: 'ai-battle',      status: 'writing',   date: dateStr(addDays(new Date(),  1)), memo: '第1回の反省踏まえて' },
-    { id: 's4', title: '感覚トレード総まとめ', category: 'mindset',        status: 'idea',      date: dateStr(addDays(new Date(),  3)), memo: '' },
-    { id: 's5', title: '琥珀：NISAの使い方',  category: 'education',      status: 'idea',      date: null,                            memo: '4月以降' },
-    { id: 's6', title: 'souba.py解説記事',     category: 'tool',           status: 'idea',      date: null,                            memo: '' },
-  ];
-}
-
-function save() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(articles)); } catch(e) {}
-}
-
-// ── date helpers ──────────────────────────────────────────────
-function dateStr(d) {
-  var y = d.getFullYear();
-  var m = String(d.getMonth()+1).padStart(2,'0');
-  var dd = String(d.getDate()).padStart(2,'0');
-  return y+'-'+m+'-'+dd;
-}
-
-function addDays(d, n) {
-  var r = new Date(d); r.setDate(r.getDate()+n); return r;
-}
-
-function fmtDate(s) {
-  var d = new Date(s+'T00:00:00');
-  var days = ['日','月','火','水','木','金','土'];
-  return (d.getMonth()+1)+'/'+(d.getDate())+'('+days[d.getDay()]+')';
-}
-
-function todayStr() { return dateStr(new Date()); }
-
-// ── render ────────────────────────────────────────────────────
-function render() {
-  renderCal();
-  renderStock();
-}
-
-function renderCal() {
-  var row = document.getElementById('cal-row');
-  row.innerHTML = '';
-  var today = todayStr();
-  for (var i = -1; i <= 14; i++) {
-    var d = dateStr(addDays(new Date(), i));
-    var isPast = d < today;
-    var isToday = d === today;
-    var items = articles.filter(function(a){ return a.date === d; });
-
-    var col = document.createElement('div');
-    col.className = 'day-col' + (isToday ? ' today' : '') + (isPast && !isToday ? ' past' : '');
-    col.dataset.date = d;
-
-    col.addEventListener('dragover', function(e){ e.preventDefault(); this.classList.add('drag-over'); });
-    col.addEventListener('dragleave', function(){ this.classList.remove('drag-over'); });
-    col.addEventListener('drop', function(e){ e.preventDefault(); this.classList.remove('drag-over'); dropTo(this.dataset.date); });
-
-    var hdr = document.createElement('div');
-    hdr.className = 'day-header';
-    hdr.innerHTML = '<div class="day-label">' + fmtDate(d) + (isToday ? '<span class="today-badge">TODAY</span>' : '') + '</div>'
-      + '<button class="day-add" data-date="'+d+'">+</button>';
-    hdr.querySelector('.day-add').addEventListener('click', function(){ openModal('new', this.dataset.date); });
-    col.appendChild(hdr);
-
-    items.forEach(function(a){
-      col.appendChild(makeCard(a, false));
-    });
-    row.appendChild(col);
-  }
-}
-
-function renderStock() {
-  var stock = articles.filter(function(a){ return !a.date; });
-  var filtered = activeFilter === 'all' ? stock : stock.filter(function(a){ return a.category === activeFilter; });
-
-  document.getElementById('stock-count').textContent = '日付未定 '+stock.length+'件';
-
-  // filter buttons
-  var fr = document.getElementById('filter-row');
-  fr.innerHTML = '';
-  var allBtn = document.createElement('button');
-  allBtn.className = 'filter-btn' + (activeFilter === 'all' ? ' active' : '');
-  allBtn.style.background = activeFilter === 'all' ? '#d4920a' : '';
-  allBtn.style.borderColor = activeFilter === 'all' ? '#d4920a' : '';
-  allBtn.textContent = 'すべて';
-  allBtn.onclick = function(){ activeFilter = 'all'; render(); };
-  fr.appendChild(allBtn);
-
-  CATEGORIES.forEach(function(c){
-    var btn = document.createElement('button');
-    btn.className = 'filter-btn' + (activeFilter === c.val ? ' active' : '');
-    btn.style.background = activeFilter === c.val ? c.color : '';
-    btn.style.borderColor = activeFilter === c.val ? c.color : '#333';
-    btn.textContent = c.label;
-    btn.onclick = function(){ activeFilter = c.val; render(); };
-    fr.appendChild(btn);
-  });
-
-  var sc = document.getElementById('stock-cards');
-  sc.innerHTML = '';
-  filtered.forEach(function(a){
-    sc.appendChild(makeCard(a, true));
-  });
-  var addBtn = document.createElement('button');
-  addBtn.className = 'btn-add-stock';
-  addBtn.textContent = '+ 追加';
-  addBtn.onclick = function(){ openModal('new'); };
-  sc.appendChild(addBtn);
-
-  var stockSec = document.getElementById('stock-section');
-  stockSec.addEventListener('dragover', function(e){ e.preventDefault(); stockSec.classList.add('drag-over'); });
-  stockSec.addEventListener('dragleave', function(){ stockSec.classList.remove('drag-over'); });
-  stockSec.addEventListener('drop', function(e){ e.preventDefault(); stockSec.classList.remove('drag-over'); dropTo(null); });
-}
-
-function makeCard(a, compact) {
-  var cat = CATEGORIES.find(function(c){ return c.val === a.category; }) || CATEGORIES[6];
-  var st  = STATUS.find(function(s){ return s.val === a.status; }) || STATUS[0];
-
-  var card = document.createElement('div');
-  card.className = 'card' + (compact ? ' stock-card' : '');
-  card.style.borderLeft = '3px solid '+cat.color;
-  card.draggable = true;
-  card.dataset.id = a.id;
-
-  card.innerHTML =
-    '<div class="card-title">'+escHtml(a.title)+'</div>'
-    +'<div class="card-meta">'
-    +'<span class="status-badge" style="background:'+st.bg+';color:'+st.text+'">'+st.label+'</span>'
-    +(a.memo ? '<span class="memo-icon">💬</span>' : '')
-    +'</div>';
-
-  card.querySelector('.status-badge').addEventListener('click', function(e){
-    e.stopPropagation();
-    cycleStatus(a.id);
-  });
-
-  card.addEventListener('click', function(){ openModal(a.id); });
-  card.addEventListener('dragstart', function(){ dragId = a.id; card.classList.add('dragging'); });
-  card.addEventListener('dragend', function(){ dragId = null; card.classList.remove('dragging'); });
-
-  return card;
-}
-
-function dropTo(date) {
-  if (!dragId) return;
-  articles = articles.map(function(a){
-    return a.id === dragId ? Object.assign({}, a, { date: date }) : a;
-  });
-  dragId = null;
-  save();
-  render();
-}
-
-function cycleStatus(id) {
-  articles = articles.map(function(a){
-    if (a.id !== id) return a;
-    var idx = STATUS.findIndex(function(s){ return s.val === a.status; });
-    return Object.assign({}, a, { status: STATUS[(idx+1) % STATUS.length].val });
-  });
-  save();
-  render();
-}
-
-// ── modal ─────────────────────────────────────────────────────
-function populateSelects() {
-  var cs = document.getElementById('f-category');
-  cs.innerHTML = '';
-  CATEGORIES.forEach(function(c){
-    var o = document.createElement('option');
-    o.value = c.val; o.textContent = c.label;
-    cs.appendChild(o);
-  });
-  var ss = document.getElementById('f-status');
-  ss.innerHTML = '';
-  STATUS.forEach(function(s){
-    var o = document.createElement('option');
-    o.value = s.val; o.textContent = s.label;
-    ss.appendChild(o);
-  });
-}
-
-function openModal(idOrNew, date) {
-  populateSelects();
-  var overlay = document.getElementById('overlay');
-  overlay.classList.remove('hidden');
-  document.getElementById('btn-delete').style.display = 'none';
-
-  if (idOrNew === 'new') {
-    currentEditId = null;
-    document.getElementById('modal-title').textContent = 'NEW ARTICLE';
-    document.getElementById('f-title').value = '';
-    document.getElementById('f-category').value = 'free';
-    document.getElementById('f-status').value = 'idea';
-    document.getElementById('f-date').value = date || '';
-    document.getElementById('f-memo').value = '';
-  } else {
-    var a = articles.find(function(x){ return x.id === idOrNew; });
-    if (!a) return;
-    currentEditId = a.id;
-    document.getElementById('modal-title').textContent = 'EDIT ARTICLE';
-    document.getElementById('f-title').value = a.title;
-    document.getElementById('f-category').value = a.category;
-    document.getElementById('f-status').value = a.status;
-    document.getElementById('f-date').value = a.date || '';
-    document.getElementById('f-memo').value = a.memo || '';
-    document.getElementById('btn-delete').style.display = '';
-  }
-  setTimeout(function(){ document.getElementById('f-title').focus(); }, 50);
-}
-
-function closeModal() {
-  document.getElementById('overlay').classList.add('hidden');
-  currentEditId = null;
-}
-
-function saveArticle() {
-  var title = document.getElementById('f-title').value.trim();
-  if (!title) { document.getElementById('f-title').focus(); return; }
-  var data = {
-    title:    title,
-    category: document.getElementById('f-category').value,
-    status:   document.getElementById('f-status').value,
-    date:     document.getElementById('f-date').value || null,
-    memo:     document.getElementById('f-memo').value,
-  };
-  if (currentEditId) {
-    articles = articles.map(function(a){ return a.id === currentEditId ? Object.assign({}, a, data) : a; });
-  } else {
-    data.id = Date.now().toString();
-    articles.push(data);
-  }
-  save(); closeModal(); render();
-}
-
-function deleteArticle() {
-  if (!currentEditId) return;
-  if (!confirm('削除しますか？')) return;
-  articles = articles.filter(function(a){ return a.id !== currentEditId; });
-  save(); closeModal(); render();
-}
-
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ── start ─────────────────────────────────────────────────────
-load();
-render();
+var CATS=[{val:'monthly-review',label:'月次振り返り',color:'#44ee88'},{val:'ai-battle',label:'AIvsメロウ',color:'#ee8844'},{val:'education',label:'琥珀シリーズ',color:'#4488ee'},{val:'analysis',label:'銘柄分析',color:'#ee4488'},{val:'mindset',label:'マインドセット',color:'#88ee44'},{val:'tool',label:'ツール紹介',color:'#44aaee'},{val:'free',label:'その他',color:'#aaaaaa'}];
+var STS=[{val:'idea',label:'企画',bg:'#2a2a2a',text:'#888'},{val:'writing',label:'執筆中',bg:'#1a2a1a',text:'#4e8'},{val:'done',label:'完成',bg:'#2a1a1a',text:'#e84'},{val:'published',label:'公開済',bg:'#1a1a2a',text:'#48e'}];
+var KEY='note-scheduler-v2',articles=[],editId=null,filter='all';
+function load(){try{var s=localStorage.getItem(KEY);if(s){articles=JSON.parse(s);return}}catch(e){}var t=new Date();articles=[{id:'s1',title:'3月振り返り①',category:'monthly-review',status:'published',date:ds(addD(t,-1)),memo:''},{id:'s2',title:'3月振り返り②',category:'monthly-review',status:'done',date:ds(t),memo:''},{id:'s3',title:'AIvsメロウ第2回結果',category:'ai-battle',status:'writing',date:ds(addD(t,1)),memo:'第1回の反省踏まえて'},{id:'s4',title:'感覚トレード総まとめ',category:'mindset',status:'idea',date:ds(addD(t,3)),memo:''},{id:'s5',title:'琥珀：NISAの使い方',category:'education',status:'idea',date:null,memo:'4月以降'},{id:'s6',title:'souba.py解説記事',category:'tool',status:'idea',date:null,memo:''}];}
+function sv(){try{localStorage.setItem(KEY,JSON.stringify(articles))}catch(e){}}
+function ds(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function addD(d,n){var r=new Date(d);r.setDate(r.getDate()+n);return r}
+function td(){return ds(new Date())}
+function fmt(s){var d=new Date(s+'T00:00:00');return(d.getMonth()+1)+'/'+(d.getDate())+'('+'日月火水木金土'[d.getDay()]+')'}
+function render(){renderCal();renderStock()}
+function renderCal(){var row=document.getElementById('cal-row');row.innerHTML='';var today=td();for(var i=-1;i<=14;i++){var d=ds(addD(new Date(),i));var past=d<today,tod=d===today;var items=articles.filter(function(a){return a.date===d});var col=document.createElement('div');col.className='day-col'+(tod?' today':'')+(past&&!tod?' past':'');var hdr=document.createElement('div');hdr.className='day-header';var lbl=document.createElement('div');lbl.className='day-label';lbl.innerHTML=fmt(d)+(tod?'<span class="today-badge">NOW</span>':'');var ab=document.createElement('button');ab.className='day-add';ab.textContent='+';ab.onclick=(function(dd){return function(){openModal('new',dd)}})(d);hdr.appendChild(lbl);hdr.appendChild(ab);col.appendChild(hdr);items.forEach(function(a){col.appendChild(mkCard(a,false))});row.appendChild(col)}}
+function renderStock(){var stock=articles.filter(function(a){return!a.date});var fil=filter==='all'?stock:stock.filter(function(a){return a.category===filter});document.getElementById('stock-count').textContent=stock.length+'件';var fr=document.getElementById('filter-row');fr.innerHTML='';function mkF(val,label,color){var btn=document.createElement('button');var isA=filter===val;btn.className='filter-btn'+(isA?' active':'');btn.textContent=label;if(isA){btn.style.background=color||'#d4920a';btn.style.borderColor=color||'#d4920a'}btn.onclick=function(){filter=val;render()};fr.appendChild(btn)}mkF('all','すべて');CATS.forEach(function(c){mkF(c.val,c.label,c.color)});var sc=document.getElementById('stock-cards');sc.innerHTML='';fil.forEach(function(a){sc.appendChild(mkCard(a,true))});var add=document.createElement('button');add.className='btn-add-stock';add.textContent='＋ 企画案を追加';add.onclick=function(){openModal('new')};sc.appendChild(add)}
+function mkCard(a,compact){var cat=CATS.find(function(c){return c.val===a.category})||CATS[6];var st=STS.find(function(s){return s.val===a.status})||STS[0];var card=document.createElement('div');card.className='card'+(compact?' stock-card':'');card.style.borderLeft='3px solid '+cat.color;var tl=document.createElement('div');tl.className='card-title';tl.textContent=a.title;var meta=document.createElement('div');meta.className='card-meta';var badge=document.createElement('span');badge.className='status-badge';badge.textContent=st.label;badge.style.background=st.bg;badge.style.color=st.text;badge.onclick=function(e){e.stopPropagation();cycleStatus(a.id)};meta.appendChild(badge);if(a.memo){var mi=document.createElement('span');mi.className='memo-icon';mi.textContent='💬';meta.appendChild(mi)}card.appendChild(tl);card.appendChild(meta);card.onclick=function(){openModal(a.id)};return card}
+function cycleStatus(id){articles=articles.map(function(a){if(a.id!==id)return a;var i=STS.findIndex(function(s){return s.val===a.status});return Object.assign({},a,{status:STS[(i+1)%STS.length].val})});sv();render()}
+function populateSels(){var cs=document.getElementById('f-category');cs.innerHTML='';CATS.forEach(function(c){var o=document.createElement('option');o.value=c.val;o.textContent=c.label;cs.appendChild(o)});var ss=document.getElementById('f-status');ss.innerHTML='';STS.forEach(function(s){var o=document.createElement('option');o.value=s.val;o.textContent=s.label;ss.appendChild(o)})}
+function buildSC(){var sc=document.getElementById('date-shortcuts');sc.innerHTML='';var t=new Date();for(var i=0;i<=7;i++){var d=addD(t,i);var lbl=i===0?'今日':i===1?'明日':fmt(ds(d));var btn=document.createElement('button');btn.className='date-sc';btn.type='button';btn.textContent=lbl;btn.onclick=(function(v){return function(){document.getElementById('f-date').value=v}})(ds(d));sc.appendChild(btn)}var clr=document.createElement('button');clr.className='date-sc clear';clr.type='button';clr.textContent='STOCKへ';clr.onclick=function(){document.getElementById('f-date').value=''};sc.appendChild(clr)}
+function openModal(id,date){populateSels();buildSC();document.getElementById('overlay').classList.remove('hidden');document.getElementById('btn-delete').style.display='none';if(id==='new'){editId=null;document.getElementById('modal-title').textContent='NEW ARTICLE';document.getElementById('f-title').value='';document.getElementById('f-category').value='free';document.getElementById('f-status').value='idea';document.getElementById('f-date').value=date||'';document.getElementById('f-memo').value=''}else{var a=articles.find(function(x){return x.id===id});if(!a)return;editId=a.id;document.getElementById('modal-title').textContent='EDIT';document.getElementById('f-title').value=a.title;document.getElementById('f-category').value=a.category;document.getElementById('f-status').value=a.status;document.getElementById('f-date').value=a.date||'';document.getElementById('f-memo').value=a.memo||'';document.getElementById('btn-delete').style.display=''}setTimeout(function(){document.getElementById('f-title').focus()},100)}
+function closeModal(){document.getElementById('overlay').classList.add('hidden');editId=null}
+function saveArticle(){var title=document.getElementById('f-title').value.trim();if(!title){document.getElementById('f-title').focus();return}var data={title:title,category:document.getElementById('f-category').value,status:document.getElementById('f-status').value,date:document.getElementById('f-date').value||null,memo:document.getElementById('f-memo').value};if(editId){articles=articles.map(function(a){return a.id===editId?Object.assign({},a,data):a})}else{data.id=Date.now().toString();articles.push(data)}sv();closeModal();render()}
+function deleteArticle(){if(!editId)return;if(!confirm('削除しますか？'))return;articles=articles.filter(function(a){return a.id!==editId});sv();closeModal();render()}
+load();render();
 </script>
 
 </body>
