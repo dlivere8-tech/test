@@ -9,19 +9,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#ede8de;
-  --paper:#fdf8f0;
-  --tile:#fdf8f0;
-  --border:#b0a090;
-  --border2:#8a7a68;
-  --text:#1a1410;
-  --text2:#3a3028;
-  --dim:#7a6e60;
-  --amber:#a06800;
-  --amber-light:#e8a800;
-  --red:#b02020;
-  --today-bg:#fff8e0;
-  --today-border:#c08000;
+  --bg:#ede8de;--paper:#fdf8f0;--tile:#fdf8f0;
+  --border:#b0a090;--border2:#8a7a68;
+  --text:#1a1410;--text2:#3a3028;--dim:#7a6e60;
+  --amber:#a06800;--red:#b02020;
+  --today-bg:#fff8e0;--today-border:#c08000;
   --sans:'Noto Sans JP',sans-serif;
 }
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;padding:14px 14px 100px;font-size:15px}
@@ -30,21 +22,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .hd-title{font-size:16px;font-weight:700;color:var(–amber);letter-spacing:.06em}
 .hd-sub{font-size:12px;color:var(–dim);margin-left:10px}
 
-/* INSERT ZONE */
 .insert-zone{height:12px;position:relative;z-index:10}
 .insert-zone.active{height:48px;background:#fff3c0;border:2.5px dashed var(–amber);border-radius:5px;display:flex;align-items:center;justify-content:center;margin:3px 0}
 .insert-zone.active::after{content:‘↓ ここに挿入（以降を1日ずつ後ろへ）’;font-size:11px;color:var(–amber);font-family:var(–sans);font-weight:700}
 
-/* TILE */
 .day-tile{margin-bottom:3px}
 .tile-body{display:flex;align-items:stretch;background:var(–tile);border:1.5px solid var(–border);border-radius:5px;min-height:54px;transition:border-color .12s,background .12s;overflow:hidden}
 .day-tile.today .tile-body{background:var(–today-bg);border:2.5px solid var(–today-border)}
 .day-tile.past .tile-body{opacity:.45}
-
-/* swap highlight */
 .tile-body.swap-target{border:2.5px solid #c00 !important;background:#fff0f0 !important}
 .tile-body.swap-target .date-col::after{content:‘⇄ 入れ替え’;display:block;font-size:10px;color:#c00;font-weight:700;margin-top:2px}
-/* empty highlight */
 .tile-body.empty-target{border:2.5px solid var(–amber) !important;background:#fffbe8 !important}
 
 .date-col{width:84px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;padding:10px 6px 10px 14px;border-right:1.5px solid var(–border)}
@@ -56,16 +43,15 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .tile-content{flex:1;min-width:0;padding:6px 8px;display:flex;align-items:center}
 .tile-empty{font-size:13px;color:#b0a090}
 
-/* CARD */
 .tile-card{display:flex;align-items:stretch;width:100%;background:#fff;border:1.5px solid var(–border);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1)}
 .tile-card.dragging-src{opacity:.2}
 .card-text{flex:1;min-width:0;padding:10px 12px;cursor:pointer}
 .card-title-text{font-size:14px;font-weight:500;color:var(–text);line-height:1.4}
 .card-memo-text{font-size:12px;color:var(–dim);margin-top:4px;line-height:1.4}
+.repeat-tag{display:inline-block;font-size:10px;background:#e8f0e0;color:#4a7a20;border:1px solid #b0d090;border-radius:3px;padding:1px 5px;margin-top:4px;font-weight:700}
 .card-handle{width:32px;flex-shrink:0;background:#6a5c4e;border-left:1.5px solid #4a3c2e;display:flex;align-items:center;justify-content:center;cursor:grab;touch-action:none}
 .card-handle::after{content:’’;display:block;width:5px;height:30px;background:repeating-linear-gradient(to bottom,#c8b89a 0,#c8b89a 3px,#4a3c2e 3px,#4a3c2e 7px);border-radius:2px}
 
-/* STOCK */
 .stock-wrap{margin-top:18px;background:var(–tile);border:1.5px solid var(–border);border-radius:5px;padding:14px}
 .stock-wrap.drop-active{border:2.5px solid var(–amber);background:#fffbe8}
 .stock-label{font-size:12px;font-weight:700;color:var(–amber);letter-spacing:.1em;margin-bottom:10px}
@@ -74,27 +60,39 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .stock-card{display:flex;align-items:stretch;background:#fff;border:1.5px solid var(–border);border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1)}
 .stock-card.dragging-src{opacity:.2}
 
-/* GHOST */
 .drag-ghost{position:fixed;pointer-events:none;z-index:500;background:#fff;border:2px solid var(–amber);border-radius:4px;padding:10px 14px;font-family:var(–sans);font-size:14px;font-weight:500;color:var(–text);max-width:220px;box-shadow:0 8px 24px rgba(0,0,0,.2);transform:rotate(1.5deg)}
 
-/* FAB */
 .fab{position:fixed;bottom:24px;right:20px;width:56px;height:56px;background:var(–amber);border:none;border-radius:50%;font-size:30px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:50;line-height:1}
 .fab:active{transform:scale(.9)}
 
 /* MODAL */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:200}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;z-index:200}
 .overlay.hidden{display:none}
-.modal{background:var(–paper);border:1.5px solid var(–border);border-radius:12px 12px 0 0;width:100%;max-width:500px;padding:16px 20px 36px;max-height:80vh;overflow-y:auto}
+.modal{background:var(–paper);border:1.5px solid var(–border2);border-radius:12px 12px 0 0;width:100%;max-width:500px;padding:16px 20px 36px;max-height:85vh;overflow-y:auto}
 .modal-handle{width:36px;height:4px;background:var(–border2);border-radius:2px;margin:0 auto 14px}
 .modal-title{font-size:14px;font-weight:700;color:var(–amber);margin-bottom:14px}
 .fl{font-size:11px;color:var(–dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;margin-top:14px;display:block;font-weight:700}
-.modal input,.modal textarea{width:100%;background:var(–bg);border:1.5px solid var(–border);color:var(–text);padding:12px 13px;border-radius:4px;font-size:15px;font-family:var(–sans);outline:none}
-.modal input:focus,.modal textarea:focus{border-color:var(–amber)}
-.modal textarea{resize:none;line-height:1.6}
-.modal-actions{display:flex;gap:8px;margin-top:18px}
-.btn-c{flex:1;padding:14px;background:transparent;border:1.5px solid var(–border);color:var(–dim);border-radius:4px;font-size:14px;cursor:pointer;font-family:var(–sans)}
-.btn-d{padding:14px 16px;background:transparent;border:1.5px solid var(–red);color:var(–red);border-radius:4px;font-size:14px;cursor:pointer;font-family:var(–sans)}
-.btn-s{flex:2;padding:14px;background:var(–amber);color:#fff;border:none;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(–sans)}
+
+/* input with clear btn */
+.input-wrap{position:relative;display:flex;align-items:center}
+.input-wrap input{flex:1;background:var(–bg);border:1.5px solid var(–border);color:var(–text);padding:12px 40px 12px 13px;border-radius:4px;font-size:15px;font-family:var(–sans);outline:none}
+.input-wrap input:focus{border-color:var(–amber)}
+.input-clear{position:absolute;right:10px;background:var(–border2);border:none;color:#fff;width:22px;height:22px;border-radius:50%;font-size:14px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;font-family:var(–sans)}
+
+.modal textarea{width:100%;background:var(–bg);border:1.5px solid var(–border);color:var(–text);padding:12px 13px;border-radius:4px;font-size:15px;font-family:var(–sans);outline:none;resize:none;line-height:1.6}
+.modal textarea:focus{border-color:var(–amber)}
+
+/* repeat toggle */
+.repeat-row{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;background:var(–bg);border:1.5px solid var(–border);border-radius:4px;cursor:pointer}
+.repeat-row input[type=checkbox]{width:20px;height:20px;accent-color:var(–amber);cursor:pointer;flex-shrink:0}
+.repeat-row-label{font-size:14px;font-weight:500;color:var(–text2);cursor:pointer;user-select:none}
+.repeat-row-sub{font-size:11px;color:var(–dim);margin-top:1px}
+
+/* modal action buttons — bigger & clear */
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.btn-d{padding:14px 18px;background:var(–red);border:none;color:#fff;border-radius:5px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(–sans)}
+.btn-c{flex:1;padding:14px;background:var(–bg);border:2px solid var(–border2);color:var(–text2);border-radius:5px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(–sans)}
+.btn-s{flex:2;padding:14px;background:var(–amber);color:#fff;border:none;border-radius:5px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(–sans)}
 </style>
 
 </head>
@@ -116,9 +114,20 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <div class="modal-handle"></div>
     <div class="modal-title">EDIT</div>
     <label class="fl">タイトル</label>
-    <input type="text" id="f-title" placeholder="記事タイトル"/>
+    <div class="input-wrap">
+      <input type="text" id="f-title" placeholder="記事タイトル"/>
+      <button class="input-clear" onclick="document.getElementById('f-title').value='';document.getElementById('f-title').focus()">×</button>
+    </div>
     <label class="fl">メモ</label>
     <textarea id="f-memo" rows="3" placeholder="補足メモ…"></textarea>
+    <label class="fl" style="margin-top:16px">繰り返し</label>
+    <label class="repeat-row" for="f-repeat">
+      <input type="checkbox" id="f-repeat"/>
+      <div>
+        <div class="repeat-row-label">毎週繰り返し</div>
+        <div class="repeat-row-sub">翌週同曜日に「タイトル（毎週）」を自動生成</div>
+      </div>
+    </label>
     <div class="modal-actions">
       <button class="btn-d" onclick="deleteCard()">削除</button>
       <button class="btn-c" onclick="closeModal()">キャンセル</button>
@@ -128,18 +137,36 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 </div>
 
 <script>
-var KEY='note-sched-v5',arts=[],editId=null,dragState=null,scrollInterval=null;
+var KEY='note-sched-v6', arts=[], editId=null, dragState=null, scrollInterval=null;
 
 function load(){
-  try{var s=localStorage.getItem(KEY);if(s){arts=JSON.parse(s);return}}catch(e){}
+  try{
+    // v6データがあればそのまま使う
+    var s=localStorage.getItem(KEY);
+    if(s){arts=JSON.parse(s);return}
+    // v5データを引き継ぐ
+    var old=localStorage.getItem('note-sched-v5');
+    if(old){
+      var prev=JSON.parse(old);
+      arts=prev.map(function(a){return Object.assign({repeat:false},a)});
+      sv();return;
+    }
+    // v4も念のため
+    var old4=localStorage.getItem('note-sched-v4');
+    if(old4){
+      var prev4=JSON.parse(old4);
+      arts=prev4.map(function(a){return Object.assign({repeat:false},a)});
+      sv();return;
+    }
+  }catch(e){}
   var t=new Date();
   arts=[
-    {id:'s1',title:'3月振り返り①',date:ds(addD(t,-1)),memo:''},
-    {id:'s2',title:'3月振り返り②',date:ds(t),memo:''},
-    {id:'s3',title:'AIvsメロウ第2回',date:ds(addD(t,1)),memo:'第1回の反省踏まえて'},
-    {id:'s4',title:'感覚トレード総まとめ',date:ds(addD(t,3)),memo:''},
-    {id:'s5',title:'琥珀：NISAの使い方',date:null,memo:'4月以降'},
-    {id:'s6',title:'souba.py解説記事',date:null,memo:''},
+    {id:'s1',title:'3月振り返り①',date:ds(addD(t,-1)),memo:'',repeat:false},
+    {id:'s2',title:'3月振り返り②',date:ds(t),memo:'',repeat:false},
+    {id:'s3',title:'AIvsメロウ第2回',date:ds(addD(t,1)),memo:'第1回の反省踏まえて',repeat:false},
+    {id:'s4',title:'感覚トレード総まとめ',date:ds(addD(t,3)),memo:'',repeat:false},
+    {id:'s5',title:'琥珀：NISAの使い方',date:null,memo:'4月以降',repeat:false},
+    {id:'s6',title:'souba.py解説記事',date:null,memo:'',repeat:false},
   ];
 }
 function sv(){try{localStorage.setItem(KEY,JSON.stringify(arts))}catch(e){}}
@@ -150,28 +177,51 @@ function td(){return ds(new Date())}
 function fmt(s){var d=new Date(s+'T00:00:00');return(d.getMonth()+1)+'/'+(d.getDate())+'('+'日月火水木金土'[d.getDay()]+')'}
 function getDays(){var a=[];for(var i=-1;i<=14;i++)a.push(ds(addD(new Date(),i)));return a}
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function nextTitle(){var c='①②③④⑤⑥⑦⑧⑨⑩';var n=arts.filter(function(a){return a.title.indexOf('NO TITLE')===0}).length;return 'NO TITLE'+(n<10?c[n]:n+1)}
-function addCard(){arts.push({id:'c'+Date.now(),title:nextTitle(),date:null,memo:''});sv();render()}
+function nextTitle(){var c='①②③④⑤⑥⑦⑧⑨⑩';var n=arts.filter(function(a){return a.title.indexOf('NO TITLE')===0}).length;return'NO TITLE'+(n<10?c[n]:n+1)}
+function addCard(){arts.push({id:'c'+Date.now(),title:nextTitle(),date:null,memo:'',repeat:false});sv();render()}
 
+// ── 繰り返し自動生成 ──────────────────────────────────────────
+// アプリ起動時に呼ぶ。最新14日先の日付に繰り返しカードがなければ生成する
+function applyRepeats(){
+  var days=getDays();
+  // 最後の7日分（新たに見えるようになった週）をチェック
+  // 14日先 = days[15] (index 15)
+  var newDays=days.slice(8); // 1週間分の新しい日付
+  var changed=false;
+  newDays.forEach(function(d){
+    // 1週前の日付
+    var dPrev=ds(addD(new Date(d+'T00:00:00'),-7));
+    // 1週前に繰り返しカードがあるか
+    var src=arts.find(function(a){return a.date===dPrev&&a.repeat});
+    if(!src)return;
+    // 既にその日付に同タイトル（毎週）があればスキップ
+    var repeatTitle=src.title.replace(/（毎週）$/,'')+'（毎週）';
+    var exists=arts.find(function(a){return a.date===d&&a.title===repeatTitle});
+    if(exists)return;
+    // その日が空いていれば生成
+    var occupied=arts.find(function(a){return a.date===d});
+    if(!occupied){
+      arts.push({id:'r'+Date.now()+Math.random(),title:repeatTitle,date:d,memo:src.memo,repeat:true});
+      changed=true;
+    }
+  });
+  if(changed)sv();
+}
+
+// ── render ────────────────────────────────────────────────────
 function render(){
   var today=td(),days=getDays(),cal=document.getElementById('cal');
   cal.innerHTML='';
   days.forEach(function(d){
     var past=d<today,tod=d===today;
     var art=arts.find(function(a){return a.date===d})||null;
-    var iz=document.createElement('div');
-    iz.className='insert-zone';iz.dataset.insertBefore=d;
-    cal.appendChild(iz);
-    var tile=document.createElement('div');
-    tile.className='day-tile'+(tod?' today':'')+(past?' past':'');
-    var body=document.createElement('div');
-    body.className='tile-body';body.dataset.date=d;
-    var dc=document.createElement('div');
-    dc.className='date-col';
+    var iz=document.createElement('div');iz.className='insert-zone';iz.dataset.insertBefore=d;cal.appendChild(iz);
+    var tile=document.createElement('div');tile.className='day-tile'+(tod?' today':'')+(past?' past':'');
+    var body=document.createElement('div');body.className='tile-body';body.dataset.date=d;
+    var dc=document.createElement('div');dc.className='date-col';
     dc.innerHTML='<span class="date-text">'+fmt(d)+(tod?'<span class="today-badge">TODAY</span>':'')+'</span>';
     body.appendChild(dc);
-    var tc=document.createElement('div');
-    tc.className='tile-content';
+    var tc=document.createElement('div');tc.className='tile-content';
     if(art){tc.appendChild(mkTileCard(art))}
     else{var em=document.createElement('div');em.className='tile-empty';em.textContent='−';tc.appendChild(em)}
     body.appendChild(tc);tile.appendChild(body);cal.appendChild(tile);
@@ -183,23 +233,29 @@ function render(){
   else{stock.forEach(function(a){sl.appendChild(mkStockCard(a))})}
 }
 
+function mkCardInner(a){
+  var tx=document.createElement('div');tx.className='card-text';
+  var inner='<div class="card-title-text">'+esc(a.title)+'</div>';
+  if(a.memo)inner+='<div class="card-memo-text">'+esc(a.memo)+'</div>';
+  if(a.repeat)inner+='<div><span class="repeat-tag">毎週</span></div>';
+  tx.innerHTML=inner;
+  tx.addEventListener('click',function(){openModal(a.id)});
+  return tx;
+}
 function mkTileCard(a){
   var w=document.createElement('div');w.className='tile-card';w.dataset.id=a.id;
-  var tx=document.createElement('div');tx.className='card-text';
-  tx.innerHTML='<div class="card-title-text">'+esc(a.title)+'</div>'+(a.memo?'<div class="card-memo-text">'+esc(a.memo)+'</div>':'');
-  tx.addEventListener('click',function(){openModal(a.id)});
+  w.appendChild(mkCardInner(a));
   var h=document.createElement('div');h.className='card-handle';h.dataset.id=a.id;
-  w.appendChild(tx);w.appendChild(h);setupHandle(h,a.id);return w;
+  w.appendChild(h);setupHandle(h,a.id);return w;
 }
 function mkStockCard(a){
   var w=document.createElement('div');w.className='stock-card';w.dataset.id=a.id;
-  var tx=document.createElement('div');tx.className='card-text';
-  tx.innerHTML='<div class="card-title-text">'+esc(a.title)+'</div>'+(a.memo?'<div class="card-memo-text">'+esc(a.memo)+'</div>':'');
-  tx.addEventListener('click',function(){openModal(a.id)});
+  w.appendChild(mkCardInner(a));
   var h=document.createElement('div');h.className='card-handle';h.dataset.id=a.id;
-  w.appendChild(tx);w.appendChild(h);setupHandle(h,a.id);return w;
+  w.appendChild(h);setupHandle(h,a.id);return w;
 }
 
+// ── drag ──────────────────────────────────────────────────────
 function setupHandle(handle,id){
   var sx,sy,lt,moved;
   handle.addEventListener('touchstart',function(e){
@@ -218,7 +274,6 @@ function setupHandle(handle,id){
     else{dragState=null}
   });
 }
-
 function beginDrag(id,touch){
   var a=arts.find(function(x){return x.id===id});if(!a)return;
   dragState={id:id,active:true};
@@ -240,7 +295,6 @@ function endDrag(touch){
   dragState=null;render();
 }
 function posGhost(g,touch){g.style.left=(touch.clientX-80)+'px';g.style.top=(touch.clientY-50)+'px'}
-
 function startAutoScroll(touch){updateAutoScroll(touch)}
 function updateAutoScroll(touch){
   stopAutoScroll();
@@ -249,7 +303,6 @@ function updateAutoScroll(touch){
   else if(y>wh-80){var sp=Math.max(3,Math.round((y-(wh-80))/6));scrollInterval=setInterval(function(){window.scrollBy(0,sp)},16)}
 }
 function stopAutoScroll(){if(scrollInterval){clearInterval(scrollInterval);scrollInterval=null}}
-
 function findTarget(touch){
   var izs=document.querySelectorAll('.insert-zone');
   for(var i=0;i<izs.length;i++){
@@ -270,7 +323,6 @@ function findTarget(touch){
   if(touch.clientX>=r.left&&touch.clientX<=r.right&&touch.clientY>=r.top&&touch.clientY<=r.bottom)return{type:'stock'};
   return null;
 }
-
 function clearHL(){
   document.querySelectorAll('.swap-target,.empty-target,.insert-zone.active,.stock-wrap.drop-active').forEach(function(el){
     el.classList.remove('swap-target','empty-target','active','drop-active');
@@ -288,7 +340,6 @@ function highlightTarget(tgt){
     document.getElementById('stock-wrap').classList.add('drop-active');
   }
 }
-
 function applyDrop(tgt){
   var id=dragState.id,days=getDays(),maxDate=days[days.length-1];
   if(tgt.type==='stock'){
@@ -325,18 +376,26 @@ function applyDrop(tgt){
   sv();
 }
 
+// ── modal ──────────────────────────────────────────────────────
 function openModal(id){
   var a=arts.find(function(x){return x.id===id});if(!a)return;
   editId=id;
   document.getElementById('f-title').value=a.title;
   document.getElementById('f-memo').value=a.memo||'';
+  document.getElementById('f-repeat').checked=!!a.repeat;
   document.getElementById('overlay').classList.remove('hidden');
   setTimeout(function(){document.getElementById('f-title').focus()},100);
 }
 function closeModal(){document.getElementById('overlay').classList.add('hidden');editId=null}
 function saveCard(){
   if(!editId)return;
-  arts=arts.map(function(a){return a.id===editId?Object.assign({},a,{title:document.getElementById('f-title').value.trim()||'NO TITLE',memo:document.getElementById('f-memo').value}):a});
+  arts=arts.map(function(a){
+    return a.id===editId?Object.assign({},a,{
+      title:document.getElementById('f-title').value.trim()||'NO TITLE',
+      memo:document.getElementById('f-memo').value,
+      repeat:document.getElementById('f-repeat').checked
+    }):a;
+  });
   sv();closeModal();render();
 }
 function deleteCard(){
@@ -347,7 +406,9 @@ function deleteCard(){
 
 document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)closeModal()});
 document.getElementById('fab').addEventListener('click',addCard);
-load();render();
+load();
+applyRepeats();
+render();
 </script>
 
 </body>
