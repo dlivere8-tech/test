@@ -75,18 +75,18 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 
 /* input with clear btn */
 .input-wrap{position:relative;display:flex;align-items:center}
-.input-wrap input{flex:1;background:var(–bg);border:1.5px solid var(–border);color:var(–text);padding:12px 40px 12px 13px;border-radius:4px;font-size:15px;font-family:var(–sans);outline:none}
+.input-wrap input{flex:1;background:#fff;border:1.5px solid var(–border2);color:var(–text);padding:12px 40px 12px 13px;border-radius:4px;font-size:15px;font-family:var(–sans);outline:none}
 .input-wrap input:focus{border-color:var(–amber)}
 .input-clear{position:absolute;right:10px;background:var(–border2);border:none;color:#fff;width:22px;height:22px;border-radius:50%;font-size:14px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;font-family:var(–sans)}
 
-.modal textarea{width:100%;background:var(–bg);border:1.5px solid var(–border);color:var(–text);padding:12px 13px;border-radius:4px;font-size:15px;font-family:var(–sans);outline:none;resize:none;line-height:1.6}
+.modal textarea{width:100%;background:#fff;border:1.5px solid var(–border2);color:var(–text);padding:12px 13px;border-radius:4px;font-size:15px;font-family:var(–sans);outline:none;resize:none;line-height:1.6}
 .modal textarea:focus{border-color:var(–amber)}
 
 /* repeat toggle */
-.repeat-row{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;background:var(–bg);border:1.5px solid var(–border);border-radius:4px;cursor:pointer}
+.repeat-row{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;background:#fff;border:1.5px solid var(–border2);border-radius:4px;cursor:pointer}
 .repeat-row input[type=checkbox]{width:20px;height:20px;accent-color:var(–amber);cursor:pointer;flex-shrink:0}
-.repeat-row-label{font-size:14px;font-weight:500;color:var(–text2);cursor:pointer;user-select:none}
-.repeat-row-sub{font-size:11px;color:var(–dim);margin-top:1px}
+.repeat-row-label{font-size:14px;font-weight:700;color:var(–text);cursor:pointer;user-select:none}
+.repeat-row-sub{font-size:11px;color:var(–dim);margin-top:2px}
 
 /* modal action buttons — bigger & clear */
 .modal-actions{display:flex;gap:10px;margin-top:20px}
@@ -389,13 +389,29 @@ function openModal(id){
 function closeModal(){document.getElementById('overlay').classList.add('hidden');editId=null}
 function saveCard(){
   if(!editId)return;
-  arts=arts.map(function(a){
-    return a.id===editId?Object.assign({},a,{
-      title:document.getElementById('f-title').value.trim()||'NO TITLE',
-      memo:document.getElementById('f-memo').value,
-      repeat:document.getElementById('f-repeat').checked
-    }):a;
-  });
+  var title=document.getElementById("f-title").value.trim()||"NO TITLE";
+  var memo=document.getElementById("f-memo").value;
+  var repeat=document.getElementById("f-repeat").checked;
+  if(repeat){
+    var srcArt=arts.find(function(a){return a.id===editId});
+    if(srcArt&&srcArt.date){
+      var nextDate=ds(addD(new Date(srcArt.date+"T00:00:00"),7));
+      var rTitle=title.replace(/（毎週）$/,"")+"（毎週）";
+      var occupied=arts.find(function(a){return a.date===nextDate&&a.id!==editId});
+      var already=arts.find(function(a){return a.date===nextDate&&a.title===rTitle});
+      if(occupied&&!already){alert("翌週（"+fmt(nextDate)+"）はすでに別の記事が入っています。\n先にそちらを移動してから設定してください。");return;}
+    }
+  }
+  arts=arts.map(function(a){return a.id===editId?Object.assign({},a,{title:title,memo:memo,repeat:repeat}):a});
+  if(repeat){
+    var srcArt=arts.find(function(a){return a.id===editId});
+    if(srcArt&&srcArt.date){
+      var nextDate=ds(addD(new Date(srcArt.date+"T00:00:00"),7));
+      var rTitle=title.replace(/（毎週）$/,"")+"（毎週）";
+      var already=arts.find(function(a){return a.date===nextDate&&a.title===rTitle});
+      if(!already){arts.push({id:"r"+Date.now(),title:rTitle,date:nextDate,memo:memo,repeat:true});}
+    }
+  }
   sv();closeModal();render();
 }
 function deleteCard(){
